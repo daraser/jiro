@@ -1,0 +1,64 @@
+<html>
+<head>
+  <script id="test" type="text/x-jiro-template">
+		{{` This is a comment }}
+		{{# tmp}}
+			{{! it.encode }}
+		{{#}}
+		
+		{{ var name = function(){ }}
+
+		{{ }; }}
+
+		<h1>{{= it.name}}</h1>
+
+		{{? it.more < 0}}
+			hellow
+		{{?? it.more == 1}}
+			bye
+		{{??}}
+			welcome
+		{{?}}
+
+		{{~it.array : i, j}}
+			<div>{{=i}} : {{=j}}</div>
+		{{~}}
+
+		{{~it.object : i, j}}
+			<div>{{=i}} : {{=j}}</div>
+		{{~}}
+
+	</script>
+	<script src="https://raw.github.com/evocateur/js-beautify/node-package/beautify.js"></script>
+	<script src="jiro.js"></script>
+	<script src="jiro.debug.js"></script>
+</head>
+<body>
+	<div id="out"></div>
+	<script type="text/javascript">
+		jiro.debug.format = function(str){
+			var a = js_beautify(str);
+			console.log && console.log(a);
+			return a;
+		}
+		var out = document.getElementById('out');
+		var templ = document.getElementById('test').text;
+		var template = jiro.template(templ);
+		out.innerHTML = template({
+			name:'darius', 
+			more : 1, 
+			array : [
+				'john', 
+				'darius', 
+				'petras'
+			],
+			object : {
+				'john' : 'is', 
+				'darius' : 'is', 
+				'petras' : 'is'	
+			},
+			encode : '<div></div>'
+		});
+	</script>
+</body>
+</html>
