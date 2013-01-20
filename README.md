@@ -1,4 +1,4 @@
-jiro or Jiro Template Language
+JTL or Jiro Template Language
 ====
 
 At first this template language is inspired by doT. My goal is to inprove over doT in all posible places:
