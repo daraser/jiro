@@ -38,6 +38,7 @@ Licensed under MIT
 				if(!that.isU(lang[i].init))
 					context.push(lang[i].init());
 			}
+			debugger;
 
 			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ')
 				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'')
@@ -64,7 +65,9 @@ Licensed under MIT
 						return '';
 					}
 						
-				})+ "';return out;");
+				})+ "';return out;").replace(/\n/g, '\\n').replace(/\t/g, '\\t').replace(/\r/g, '\\r')
+			.replace(/(\s|;|\}|^|\{)out\+='';/g, '$1').replace(/\+''/g, '')
+			.replace(/(\s|;|\}|^|\{)out\+=''\+/g,'$1out+=');
 			str = "var "+jiro.context+" = {" + context.join(',') + '};' + str;
 
 			if(!that.isU(that.debug) && !that.isU(that.debug.format))
@@ -156,7 +159,12 @@ Licensed under MIT
 				return "';};out+='";
 			}
 		},
-		'{{!{code}}}' : {
+		'{{##{code}}}' : {
+			exec : function(pattern, code){
+				return "';"+ jiro.trim(unescape(code)) +";out+='";
+			}
+		},
+		'{{!!{code}}}' : {
 			exec : function(pattern, code){
 				return "'+("+jiro.context+".encode(" + unescape(code) + "))+'";
 			},
@@ -166,6 +174,20 @@ Licensed under MIT
 					var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": "&#39;", "/": "&#47;" },
 						matchHTML = /&(?!#?\w+;)|<|>|"|'|\//g;
 					return str.replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;});
+				}).toString();
+			}
+		},
+		'{{!{code}}}' : {
+			exec : function(pattern, code){
+				return "'+("+jiro.context+".escape(" + unescape(code) + "))+'";
+			},
+			init : function(){
+				return "escape : "+ 
+				(function() {
+					var a = arguments[0];
+					var b = '';
+					if(arguments.length == 1) b = arguments[1];
+					return a == null ? b : a;
 				}).toString();
 			}
 		}
