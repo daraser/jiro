@@ -43,7 +43,6 @@ Licensed under MIT
 				if(!that.isU(lang[i].init))
 					context.push(lang[i].init());
 			}
-			debugger;
 
 			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ') // makes tabs, new lines to spaces
 				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'') // removes double spaces
