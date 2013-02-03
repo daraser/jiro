@@ -19,6 +19,8 @@ Licensed under MIT
 	var jiro = {
 		varname : 'it',
 		context : "def",
+		global : null,
+
 		extend : function(patterns){
 			for ( var i in patterns ) {
 				lang[i] = patterns[i];
@@ -37,13 +39,10 @@ Licensed under MIT
 			var that = this;
 			var str = templ;
 
-			var context = [];
-
 			for(var i in lang){
-				if(!that.isU(lang[i].init))
-					context.push(lang[i].init());
+				lang[i].init(that.globals);
 			}
-
+			
 			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ') // makes tabs, new lines to spaces
 				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'') // removes double spaces
 				.replace(/'|\\/g, '\\$&') // escapes quates	
@@ -72,7 +71,7 @@ Licensed under MIT
 				})+ "';return out;").replace(/\n/g, '\\n').replace(/\t/g, '\\t').replace(/\r/g, '\\r')
 			.replace(/(\s|;|\}|^|\{)out\+='';/g, '$1').replace(/\+''/g, '')
 			.replace(/(\s|;|\}|^|\{)out\+=''\+/g,'$1out+=');
-			str = "var "+jiro.context+" = {" + context.join(',') + '};' + str;
+			str = "var "+jiro.context+" = jiro.globals;" + str;
 
 			if(!that.isU(that.debug) && !that.isU(that.debug.format))
 				str = that.debug.format(str);
@@ -81,7 +80,6 @@ Licensed under MIT
 					return new Function(jiro.varname, str);
 				return function(){return 'Debugger found an issue. Check for console for errors.'};
 			} catch (e) {
-
 				that.debug && that.debug.error("Could not create a template function: \n"+str); 
 				throw e;
 			}
@@ -132,14 +130,13 @@ Licensed under MIT
 				var parts = code.split(':');
 				return "';"+jiro.context+".iterate("+unescape(parts[0])+", function(" + parts[1] +"){ out+='";
 			},
-			init : function(){
-				return "iterate : " + 
-					(function(obj, fn){
-						if(obj instanceof Array)
-							for(var i = 0; i < obj.length; i++) {fn(i, obj[i]);}
-						else
-							for(var i in obj) {fn(i, obj[i]);}
-					}).toString();
+			init : function(context){
+				context['iterate'] = function(obj, fn){
+					if(obj instanceof Array)
+						for(var i = 0; i < obj.length; i++) {fn(i, obj[i]);}
+					else
+						for(var i in obj) {fn(i, obj[i]);}
+				};
 			}
 		},
 		'{{~}}' : {
@@ -172,29 +169,26 @@ Licensed under MIT
 			exec : function(pattern, code){
 				return "'+("+jiro.context+".encode(" + unescape(code) + "))+'";
 			},
-			init : function(){
-				return "encode : "+ 
-				(function(str) {
+			init : function(context){
+				context["encode"] = function(str) {
 					var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": "&#39;", "/": "&#47;" },
 						matchHTML = /&(?!#?\w+;)|<|>|"|'|\//g;
 					return str.replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;});
-				}).toString();
+				};
 			}
 		},
 		'{{!{code}}}' : {
 			exec : function(pattern, code){
 				return "'+("+jiro.context+".escape(" + unescape(code) + "))+'";
 			},
-			init : function(){
-				return "escape : "+ 
-				(function() {
+			init : function(context){
+				context["escape"] = function() {
 					var a = arguments[0];
 					var b = '';
 					if(arguments.length == 1) b = arguments[1];
 					return a == null ? b : a;
-				}).toString();
+				};
 			}
 		}
-
 	});
 })();

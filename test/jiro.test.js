@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 //var jiro = require('../jiro.js');
-var jiro = require('../jiro.debug.js');
+var jiro = require('../jiro.debug');
 
 describe('Jiro', function(){
 	var data = {
@@ -16,11 +16,6 @@ describe('Jiro', function(){
 			'third' : 'C'
 		},
 		text : '<div>Hello</div>'
-
-
-
-
-
 	};
 	describe('code', function(){
 		it('HTML expression', function(){
