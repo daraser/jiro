@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
-var jiro = require('../jiro.js');
+//var jiro = require('../jiro.js');
+var jiro = require('../jiro.debug.js');
 
 describe('Jiro', function(){
 	var data = {
@@ -15,6 +16,8 @@ describe('Jiro', function(){
 			'third' : 'C'
 		},
 		text : '<div>Hello</div>'
+
+
 
 
 
@@ -113,10 +116,11 @@ describe('Jiro', function(){
 		it('first', function(){
 			data.index = 0;
 			try{
-			var tmp = jiro.template("<div>{{= 'i'}}</div>");		
+			//var tmp = jiro.template("<div>{{= 'i'}}</div>");	
+			console.log(e.toString());		
 			}
 			catch(e){
-			console.log(e.toString());	
+			console.log(jiro.template("<div>{{= 'i'}}</div>"));	
 			}
 			
 			//assert.equal('<div>i</div>',tmp(data));

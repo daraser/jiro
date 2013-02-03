@@ -1,5 +1,8 @@
 <html>
 <head>
+	<script type="text/javascript" src="https://raw.github.com/olado/doT/master/doT.js">
+
+	</script>
   <script id="test" type="text/x-jiro-template">
 		{{` This is a comment }}
 		{{# tmp}}
@@ -60,6 +63,9 @@
 			},
 			encode : '<div></div>'
 		});
+
+
+		var code = doT.template("<div>{{= 'i' }}</div>")();
 	</script>
 </body>
 </html>

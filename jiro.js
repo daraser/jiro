@@ -11,6 +11,11 @@ Licensed under MIT
 	var command = /\{\{?([`/?~!@#$%^&*+=])?([`/?~!@#$%^&*+=])?\s*([\s\S]*?)\s*([`/?~!@#$%^&*+=])?\}\}/g;
 	var lang = {};
 
+	function unescape(code) {
+		return code.replace(/\\('|\\)/g, "$1").replace(/[\r\t\n]/g, ' ');
+	}
+
+
 	var jiro = {
 		varname : 'it',
 		context : "def",
@@ -40,9 +45,9 @@ Licensed under MIT
 			}
 			debugger;
 
-			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ')
-				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'')
-				.replace(/'|\\/g, '\\$&') // not sure what it does	
+			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ') // makes tabs, new lines to spaces
+				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'') // removes double spaces
+				.replace(/'|\\/g, '\\$&') // escapes quates	
 				.replace(command, function(all, first, second, code, last){
 					var pattern = 
 						[

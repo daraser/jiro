@@ -5,6 +5,12 @@ Written by Darius Aseriskis
 Licensed under MIT
 ------------------------------------------------------------------------------
 */
+// node and window exports
+if (typeof module !== 'undefined' && module.exports) {
+	var jiro = require('./jiro.js');
+	module.exports = jiro;
+}
+
 (function(jiro){
 
 	var executionStack = {}; 
@@ -106,7 +112,7 @@ Licensed under MIT
 			that.push(pattern, code);
 			var a = that.getAll(pattern);
 			if(that.checkCount(a)){
-				stack = that.getStack(pattern);
+				var stack = that.getStack(pattern);
 				that.clear(pattern);
 				try{
 					var fn = new Function(jiro.varname, a);
