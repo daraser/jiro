@@ -114,18 +114,8 @@ describe('Jiro', function(){
 
 	describe('qoutes', function(){
 		it('first', function(){
-			data.index = 0;
-			try{
-			//var tmp = jiro.template("<div>{{= 'i'}}</div>");	
-			console.log(e.toString());		
-			}
-			catch(e){
-			console.log(jiro.template("<div>{{= 'i'}}</div>"));	
-			}
-			
-			//assert.equal('<div>i</div>',tmp(data));
+			var tmp = jiro.template("<div>{{= 'i'}}</div>");	
+			assert.equal('<div>i</div>',tmp(data));
 		});
 	});
-
-
 });

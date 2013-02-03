@@ -9,41 +9,15 @@
       "email": "daraser@gmail.com"
     } 
   ],
-  /*"scripts": {
-    "start": "node ./bin/http-server",
-    "test": "vows --spec --isolate",
-    "predeploy": "echo This will be run before deploying the app",
-    "postdeploy": "echo This will be run after deploying the app"
-  },*/
-  /*"main": "./lib/http-server",*/
-  "repository": {
+  "dependencies" :{},
+  "repository" : {
     "type": "git",
     "url": "https://github.com/daraser/jiro.git"
   },
-  devDependencies: {
-    "chai": "*",
-    "mocha": "*" // our preference, but you can use any test runner you like
-  },
-
-  /*"keywords": [
-    "cli",
-    "http",
-    "server"
-  ],*/
-  /*"dependencies" : {
-    "" : "",
-    "" : "",
-    "" : "",
-  },*/
-  /*"analyze": false,
   "devDependencies": {
-    "vows"    :  "0.5.x",
-    "request" :  "2.1.x"
+    "chai": "*",
+    "mocha": "*"
   },
-  "bundledDependencies": [
-    "union",
-    "ecstatic"
-  ],  */
   "license": "MIT",
   "engines": {
     "node": ">=0.8"
