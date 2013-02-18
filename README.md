@@ -10,71 +10,76 @@ At first this template language is inspired by doT. My goal is to inprove over d
 Usage:
 ====
 	
-	* Direct code insersion {{{code}}}:
-	```
+* Direct code insersion {{{code}}}:
+	
+```
 	{{
 		// any javascript you code
 	}}
-	```
+```
 
-	* Eval expression {{={statement}}}:
-	```
+* Eval expression {{={statement}}}:
+	
+```
 	{{= it.Name}}
-	```
+```
 
-	* Conditional statements {{?{condition}}} [{{?? [else condition]}}] {{?}}:
-	```
+* Conditional statements {{?{condition}}} [{{?? [else condition]}}] {{?}}:
+	
+```
 	{{? it.Name == 'Foo'}}
 		My name is Foo.
 	{{?? it.Name != 'Boo'}}
 		My name isn't Boo
 	{{?}}
 
-	```
+```
+	
+* Iteration statements {{~ data : k, v}} {{~}} :
 
-	* Iteration statements {{~ data : k, v}} {{~}} :
+```
+	{{~ ['A','B','C'] : k, v}}
+		{{=k}} : {{=v}} 
+	{{~}}
 
-	```
-		{{~ ['A','B','C'] : k, v}}
-			{{=k}} : {{=v}} 
-		{{~}}
+	{{~ { '0' : 'A', '1' : 'B'} : k, v}}
+		{{=k}} : {{=v}} 
+	{{~}}
+```
 
-		{{~ { '0' : 'A', '1' : 'B'} : k, v}}
-			{{=k}} : {{=v}} 
-		{{~}}
-	```
+* Comments {{`{code}}}:
+	
+```
+	{{` This is a comment and will be thrown away when rendering... }}
+```
 
-	* Comments {{`{code}}}:
-	```
-		{{` This is a comment and will be thrown away when rendering... }}
-	```
+* Macros {{# name [: parameters] }} {{#}} {{## name()}}:
 
-	* Macros {{# name [: parameters] }} {{#}} {{## name()}}:
+```
+	{{# foo : p }}
+		<p>{{=p}}</p>
+	{{#}}
 
-	```
-		{{# foo : p }}
-			<p>{{=p}}</p>
-		{{#}}
+	{{## foo(it.Name)}}
+```
 
-		{{## foo(it.Name)}}
-	```
+* HTML encode content {{!! statement }}
+	
+```
+	{{!! it.Name }}
+```
 
-	* HTML encode content {{!! statement }}
-	```
-		{{!! it.Name }}
-	```
+* Empty if null {{!statement}}:
 
-	* Empty if null {{!statement}}:
+```
+	{{!it.Name}}	
+```
 
-	```
-		{{!it.Name}}	
-	```
+* Partials in express {{$ <file path> [: data]}}
 
-	* Partials in express {{$ <file path> [: data]}}
-
-	```
-		{{$ ./views/test.jtl : it }}
-	```
+```
+	{{$ ./views/test.jtl : it }}
+```
 
 Extending 
 ====
