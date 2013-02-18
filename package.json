@@ -9,7 +9,7 @@
       "email": "daraser@gmail.com"
     } 
   ],
-  "main" : "jiro.js",
+  "main" : "jiro.express.js",
   "dependencies" :{},
   "repository" : {
     "type": "git",

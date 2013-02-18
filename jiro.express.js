@@ -30,7 +30,7 @@ jiro.extend({
           if(_globals.partialCache == true)
               _partialsCache[file] = template;
           
-          return template.call(_globals, data);
+          return template(data);
         };
     }
   }
