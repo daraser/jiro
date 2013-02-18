@@ -19,13 +19,16 @@ Licensed under MIT
 	var jiro = {
 		varname : 'it',
 		context : "def",
-		global : null,
+		globals : {},
 
 		extend : function(patterns){
+			var that = this;
 			for ( var i in patterns ) {
 				lang[i] = patterns[i];
+				lang[i].init && lang[i].init(that.globals);
 			}
 		},
+
 		attach : function(pattern, fn){
 			lang[pattern]['debug'] = fn;
 		},
@@ -38,10 +41,6 @@ Licensed under MIT
 		template : function(templ){
 			var that = this;
 			var str = templ;
-
-			for(var i in lang){
-				lang[i].init(that.globals);
-			}
 			
 			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ') // makes tabs, new lines to spaces
 				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'') // removes double spaces
@@ -71,13 +70,17 @@ Licensed under MIT
 				})+ "';return out;").replace(/\n/g, '\\n').replace(/\t/g, '\\t').replace(/\r/g, '\\r')
 			.replace(/(\s|;|\}|^|\{)out\+='';/g, '$1').replace(/\+''/g, '')
 			.replace(/(\s|;|\}|^|\{)out\+=''\+/g,'$1out+=');
-			str = "var "+jiro.context+" = jiro.globals;" + str;
+			str = "var "+jiro.context+" = this.globals;" + str;
 
 			if(!that.isU(that.debug) && !that.isU(that.debug.format))
 				str = that.debug.format(str);
 			try {
-				if(that.isU(that.debug) || (!that.isU(that.debug) && that.debug.finish(str, templ)))
-					return new Function(jiro.varname, str);
+				if(that.isU(that.debug) || (!that.isU(that.debug) && that.debug.finish(str, templ))){
+					var tmp = new Function(that.varname, str);
+					return function(it){
+						return tmp.call(that, it);
+					};
+				}
 				return function(){return 'Debugger found an issue. Check for console for errors.'};
 			} catch (e) {
 				that.debug && that.debug.error("Could not create a template function: \n"+str); 

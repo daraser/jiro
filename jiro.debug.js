@@ -7,7 +7,14 @@ Licensed under MIT
 */
 // node and window exports
 if (typeof module !== 'undefined' && module.exports) {
-	var jiro = require('./jiro');
+	var jiro = null;
+	try{
+		jiro = require('jiro');	
+	}
+	catch(e){
+		jiro = require('./jiro');	
+	}
+		
 	module.exports = jiro;
 }
 

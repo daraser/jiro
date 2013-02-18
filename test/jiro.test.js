@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 //var jiro = require('../jiro.js');
-var jiro = require('../jiro.debug');
+var jiro = require('../jiro');
 
 describe('Jiro', function(){
 	var data = {
