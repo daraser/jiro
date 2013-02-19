@@ -94,7 +94,11 @@ describe('Jiro', function(){
 
 	describe('comment', function(){
 		it('simple', function(){
-			var tmp = jiro.template('<div>{{`it.text}}</div>');
+			var tmp = jiro.template('<div>{{`it.text`}}</div>');
+			assert.equal('<div></div>',tmp(data));
+		});
+		it('nested comments', function(){
+			var tmp = jiro.template('<div>{{` {{Some Code}} `}}</div>');
 			assert.equal('<div></div>',tmp(data));
 		});
 	});

@@ -20,6 +20,7 @@ Licensed under MIT
 		varname : 'it',
 		context : "def",
 		globals : {},
+		__fn__ : {}, // special scope for global functions
 
 		extend : function(patterns){
 			var that = this;
@@ -44,7 +45,8 @@ Licensed under MIT
 			
 			str = ("var out='" + str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ') // makes tabs, new lines to spaces
 				.replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,'') // removes double spaces
-				.replace(/'|\\/g, '\\$&') // escapes quates	
+				.replace(/'|\\/g, '\\$&') // escapes quates
+				.replace(/\{\{`?\s*([\s\S]*?)\s*`\}\}/g, '') // comment out data	
 				.replace(command, function(all, first, second, code, last){
 					var pattern = 
 						[
@@ -145,11 +147,6 @@ Licensed under MIT
 		'{{~}}' : {
 			exec : function(pattern, code){
 				return "';});out+='";
-			}
-		},
-		'{{`{code}}}' : {
-			exec : function(pattern, code){
-				return '';
 			}
 		},
 		'{{#{code}}}' : {

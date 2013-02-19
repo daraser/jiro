@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var jiro = require('jiro');
+var jiro = require('./jiro');
 var async = require('async');
 var path = require('path'); 
 
@@ -33,7 +33,27 @@ jiro.extend({
           return template(data);
         };
     }
+  },
+
+  '{{%{code}}}' : {
+      exec : function(pattern, code){
+        var parts = code.split(':');
+        return "';" + jiro.context + ".__fn__."+ jiro.trim(unescape(parts[0])) +"= function("+(parts.length > 1 ? parts[1] : '')+"){ var out+='";
+      }
+  },
+
+  '{{%}}' : {
+      exec : function(pattern, code){
+        return "'; return out; };out+='";
+      }
+  },
+
+  '{{%%{code}}}' : {
+      exec : function(pattern, code){
+        return "'+(" + jiro.context + ".__fn__." + unescape(code) + ")+'";
+      }
   }
+
 });
 
 
@@ -50,7 +70,7 @@ function _renderFile(filename, options, cb) {
   return fs.readFile(filename, 'utf8', function(err, str) {
     if (err) return cb(err);
 
-    var template = jirp.template(str);
+    var template = jiro.template(str);
     if (options.cache) _cache[filename] = template;
     return cb(null, template.call(_globals, options));
   });
