@@ -7,6 +7,12 @@ At first this template language is inspired by doT. My goal is to inprove over d
 * Allow debugging (doT is very weak at this part);
 * Allow more plugin's for improving development;
 
+Installation
+====
+```
+	$ npm install jtl
+```
+
 Usage:
 ====
 	
@@ -50,7 +56,7 @@ Usage:
 * Comments {{`{code}}}:
 	
 ```
-	{{` This is a comment and will be thrown away when rendering... }}
+	{{` This is a comment and will be thrown away when rendering... `}}
 ```
 
 * Macros {{# name [: parameters] }} {{#}} {{## name()}}:
@@ -80,6 +86,11 @@ Usage:
 ```
 	{{$ ./views/test.jtl : it }}
 ```
+
+Express integration
+====
+
+Comming soon...
 
 Extending 
 ====
