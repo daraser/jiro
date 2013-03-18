@@ -87,6 +87,8 @@ function _renderWithLayout(filename, layoutTemplate, options, cb) {
   });
 }
 
+exports.jiro = jiro;
+
 exports.setGlobals = function(globals) {
   'use strict';
   for(var f in _globals){
@@ -121,3 +123,26 @@ exports.__express = function(filename, options, cb) {
     return _renderWithLayout(filename, layoutTemplate, options, cb);
   });
 };
+
+exports.export = function(app, path) {
+  if(app == null)
+    throw new Error('Please pass in express app');
+
+  var p = path;
+  if(p == null)
+    p = '/js/vendors/jtl';
+
+  app.get(p+'/jiro.js', function(){
+    res.sendfile('./node_modules/jtl/jiro.js');  
+  });
+  app.get(p+'/jiro.debug.js', function(){
+    res.sendfile('./node_modules/jtl/jiro.debug.js');  
+  });
+
+  app.get(p+'/jiro.min.js', function(){
+    res.sendfile('./node_modules/jtl/jiro.min.js');  
+  });
+  app.get(p+'/jiro.debug.min.js', function(){
+    res.sendfile('./node_modules/jtl/jiro.debug.min.js');  
+  });
+}
