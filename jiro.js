@@ -171,9 +171,7 @@ Licensed under MIT
 			},
 			init : function(context){
 				context["encode"] = function(str) {
-					var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": "&#39;", "/": "&#47;" },
-						matchHTML = /&(?!#?\w+;)|<|>|"|'|\//g;
-					return str.replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;});
+					return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 				};
 			}
 		},
