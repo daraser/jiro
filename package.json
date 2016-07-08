@@ -1,6 +1,6 @@
 {
   "name": "jtl",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Darius Aseriskis <daraser@gmail.com>",
   "description": "JTL templating language and engine",
   "contributors": [ 
