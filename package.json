@@ -1,6 +1,6 @@
 {
   "name": "jtl",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Darius Aseriskis <daraser@gmail.com>",
   "description": "JTL templating language and engine",
   "contributors": [ 
@@ -12,7 +12,7 @@
   "main" : "jiro.express.js",
   "lib" : "./node_modules/jtl/",
   "dependencies" :{
-    "async": ">= 0.1.22"
+    "async": ">= 0.9.0"
   },
   "repository" : {
     "type": "git",
